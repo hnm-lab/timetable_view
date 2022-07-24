@@ -16,6 +16,9 @@ class LaneView extends StatelessWidget {
   /// Called when an event is tapped
   final void Function(TableEvent event) onEventTap;
 
+  /// Show a label widget on the right bottom of the event view
+  final EventViewLabelBuilder? onBuildLabel;
+
   const LaneView({
     Key? key,
     required this.events,
@@ -23,7 +26,8 @@ class LaneView extends StatelessWidget {
     required this.index,
     required this.onEmptyCellTap,
     required this.onEventTap,
-  })  : super(key: key);
+    this.onBuildLabel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +61,7 @@ class LaneView extends StatelessWidget {
               event: event,
               timetableStyle: timetableStyle,
               laneIndex: index,
+              onBuildLabel: onBuildLabel,
             );
           }).toList(),
         ],
@@ -95,8 +100,13 @@ class _EmptyTimeSlot extends StatelessWidget {
   final TableEventTime end;
   final Function(int laneIndex, TableEventTime start, TableEventTime end) onTap;
 
-  _EmptyTimeSlot(
-      {required this.laneIndex, required this.start, required this.end, required this.onTap, required this.timetableStyle,});
+  _EmptyTimeSlot({
+    required this.laneIndex,
+    required this.start,
+    required this.end,
+    required this.onTap,
+    required this.timetableStyle,
+  });
 
   @override
   Widget build(BuildContext context) {

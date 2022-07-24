@@ -15,15 +15,19 @@ class EventView extends StatelessWidget {
   /// Called when an event is tapped
   final void Function(TableEvent event) onEventTap;
 
+  /// Show a label widget on the right bottom
+  final EventViewLabelBuilder? onBuildLabel;
+
   //TODO: Delete lane Index implementation
 
-  const EventView(
-      {Key? key,
-      required this.event,
-      required this.timetableStyle,
-      required this.laneIndex,
-      required this.onEventTap})
-      : super(key: key);
+  const EventView({
+    Key? key,
+    required this.event,
+    required this.timetableStyle,
+    required this.laneIndex,
+    required this.onEventTap,
+    this.onBuildLabel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +45,24 @@ class EventView extends StatelessWidget {
               event.decoration ?? BoxDecoration(color: event.backgroundColor),
           margin: event.margin,
           padding: event.padding,
-          child: (Utils.eventText)(
-            event,
-            context,
-            math.max(
-                0.0, height() - (event.padding.top) - (event.padding.bottom)),
-            math.max(
-                0.0,
-                timetableStyle.laneWidth -
-                    (event.padding.left) -
-                    (event.padding.right)),
+          child: Stack(
+            children: [
+              (Utils.eventText)(
+                event,
+                context,
+                math.max(0.0,
+                    height() - (event.padding.top) - (event.padding.bottom)),
+                math.max(
+                    0.0,
+                    timetableStyle.laneWidth -
+                        (event.padding.left) -
+                        (event.padding.right)),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: onBuildLabel?.call(event),
+              ),
+            ],
           ),
         ),
       ),
@@ -79,3 +91,5 @@ class EventView extends StatelessWidget {
     return (hour + (minute / 60)) * (hourRowHeight ?? 60);
   }
 }
+
+typedef EventViewLabelBuilder = Widget Function(TableEvent event);
