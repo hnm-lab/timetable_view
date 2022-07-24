@@ -37,18 +37,15 @@ class EventView extends StatelessWidget {
           onEventTap(event);
         },
         child: Container(
-          decoration: event.decoration ??
-                  BoxDecoration(color: event.backgroundColor),
+          decoration:
+              event.decoration ?? BoxDecoration(color: event.backgroundColor),
           margin: event.margin,
           padding: event.padding,
           child: (Utils.eventText)(
             event,
             context,
             math.max(
-                0.0,
-                height() -
-                    (event.padding.top) -
-                    (event.padding.bottom)),
+                0.0, height() - (event.padding.top) - (event.padding.bottom)),
             math.max(
                 0.0,
                 timetableStyle.laneWidth -
