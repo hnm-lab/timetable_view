@@ -45,5 +45,5 @@ class TableEvent {
     this.decoration,
     this.backgroundColor: const Color(0xCC2196F3),
     this.textStyle: const TextStyle(color: Colors.white),
-  })  : assert(endTime.isAfter(startTime));
+  }) : assert(endTime.isAfter(startTime));
 }

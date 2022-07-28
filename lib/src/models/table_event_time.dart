@@ -1,4 +1,4 @@
-class TableEventTime extends DateTime {
+class TableEventTime {
   final int hour;
 
   final int minute;
@@ -6,13 +6,13 @@ class TableEventTime extends DateTime {
   TableEventTime({
     required this.hour,
     required this.minute,
-  })  : assert(24 >= hour),
-        assert(60 >= minute),
-        super(
-          DateTime.now().year,
-          DateTime.now().month,
-          DateTime.now().day,
-          hour,
-          minute,
-        );
+  }) : assert(60 >= minute);
+
+  Duration difference(TableEventTime other) {
+    return Duration(hours: hour - other.hour, minutes: minute - other.minute);
+  }
+
+  bool isAfter(TableEventTime other) {
+    return hour > other.hour || minute > other.minute;
+  }
 }
