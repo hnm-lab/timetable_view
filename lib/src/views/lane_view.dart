@@ -16,6 +16,8 @@ class LaneView extends StatelessWidget {
   /// Called when an event is tapped
   final void Function(TableEvent event) onEventTap;
 
+  final void Function(TableEvent event)? onEventLongTap;
+
   /// Show a label widget on the right bottom of the event view
   final EventViewLabelBuilder? onBuildLabel;
 
@@ -26,6 +28,7 @@ class LaneView extends StatelessWidget {
     required this.index,
     required this.onEmptyCellTap,
     required this.onEventTap,
+    this.onEventLongTap,
     this.onBuildLabel,
   }) : super(key: key);
 
@@ -58,6 +61,7 @@ class LaneView extends StatelessWidget {
           ...events.map((event) {
             return EventView(
               onEventTap: onEventTap,
+              onEventLongTap: onEventLongTap,
               event: event,
               timetableStyle: timetableStyle,
               laneIndex: index,

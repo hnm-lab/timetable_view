@@ -11,11 +11,13 @@ class TimetableView extends StatefulWidget {
   final TimetableStyle timetableStyle;
 
   /// Called when an empty slot or cell is tapped must not be null
-  final void Function(int laneIndex, TableEventTime start, TableEventTime end)
+  final void Function(int laneIndex, TableEventTime start, TableEventTime end)?
       onEmptySlotTap;
 
   /// Called when an event is tapped
   final void Function(TableEvent event) onEventTap;
+
+  final void Function(TableEvent event)? onEventLongTap;
 
   /// Show a label widget on the right bottom of the event view
   final EventViewLabelBuilder? onBuildLabel;
@@ -24,8 +26,9 @@ class TimetableView extends StatefulWidget {
     Key? key,
     required this.laneEventsList,
     this.timetableStyle: const TimetableStyle(),
-    required this.onEmptySlotTap,
+    this.onEmptySlotTap,
     required this.onEventTap,
+    this.onEventLongTap,
     this.onBuildLabel,
   }) : super(key: key);
 
@@ -107,7 +110,11 @@ class _TimetableViewState extends State<TimetableView>
                     timetableStyle: widget.timetableStyle,
                     index: widget.laneEventsList.indexOf(laneEvent),
                     onEventTap: widget.onEventTap,
+                    onEventLongTap: widget.onEventLongTap,
                     onEmptyCellTap: (laneIndex, startTime, endTime) {
+                      if (widget.onEmptySlotTap == null) {
+                        return;
+                      }
                       setState(() {
                         isEmptyCellTapped = true;
                         tappedEmptyCellLaneIndex = laneIndex;
@@ -177,10 +184,13 @@ class _TimetableViewState extends State<TimetableView>
       width: widget.timetableStyle.laneWidth,
       child: GestureDetector(
         onTap: () {
-          widget.onEmptySlotTap(laneIndex, start, end);
-          setState(() {
-            isEmptyCellTapped = false;
-          });
+          final onEmptySlotTap = widget.onEmptySlotTap;
+          if (onEmptySlotTap != null) {
+            onEmptySlotTap(laneIndex, start, end);
+            setState(() {
+              isEmptyCellTapped = false;
+            });
+          }
         },
         child: Opacity(
           opacity: 0.5,

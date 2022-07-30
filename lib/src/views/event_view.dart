@@ -15,6 +15,8 @@ class EventView extends StatelessWidget {
   /// Called when an event is tapped
   final void Function(TableEvent event) onEventTap;
 
+  final void Function(TableEvent event)? onEventLongTap;
+
   /// Show a label widget on the right bottom
   final EventViewLabelBuilder? onBuildLabel;
 
@@ -26,6 +28,7 @@ class EventView extends StatelessWidget {
     required this.timetableStyle,
     required this.laneIndex,
     required this.onEventTap,
+    this.onEventLongTap,
     this.onBuildLabel,
   }) : super(key: key);
 
@@ -39,6 +42,9 @@ class EventView extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           onEventTap(event);
+        },
+        onLongPress: () {
+          onEventLongTap?.call(event);
         },
         child: Container(
           decoration:
