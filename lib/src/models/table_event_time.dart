@@ -15,4 +15,9 @@ class TableEventTime {
   bool isAfter(TableEventTime other) {
     return hour > other.hour || minute > other.minute;
   }
+
+  @override
+  String toString() {
+    return 'TableEventTime{hour: $hour, minute: $minute}';
+  }
 }
