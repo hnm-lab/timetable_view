@@ -4,6 +4,7 @@ import 'package:timetable_view/src/views/controller/timetable_view_controller.da
 import 'package:timetable_view/src/views/diagonal_scroll_view.dart';
 import 'package:timetable_view/src/views/event_view.dart';
 import 'package:timetable_view/src/views/lane_view.dart';
+import 'package:timetable_view/src/views/now_line.dart';
 import 'package:timetable_view/timetable_view.dart';
 
 class TimetableView extends StatefulWidget {
@@ -22,6 +23,8 @@ class TimetableView extends StatefulWidget {
   /// Show a label widget on the right bottom of the event view
   final EventViewLabelBuilder? onBuildLabel;
 
+  final Widget? nowLineLabel;
+
   TimetableView({
     Key? key,
     required this.laneEventsList,
@@ -30,6 +33,7 @@ class TimetableView extends StatefulWidget {
     required this.onEventTap,
     this.onEventLongTap,
     this.onBuildLabel,
+    this.nowLineLabel,
   }) : super(key: key);
 
   @override
@@ -143,7 +147,8 @@ class _TimetableViewState extends State<TimetableView>
                   : SizedBox(
                       height: 0,
                       width: 0,
-                    )
+                    ),
+              _nowLine(context),
             ],
           ),
         ),
@@ -288,6 +293,17 @@ class _TimetableViewState extends State<TimetableView>
           );
         }).toList(),
       ),
+    );
+  }
+
+  Widget _nowLine(BuildContext context) {
+    if (!widget.timetableStyle.showNowLine) {
+      return SizedBox.shrink();
+    }
+
+    return NowLine(
+      timetableStyle: widget.timetableStyle,
+      nowLineLabel: widget.nowLineLabel,
     );
   }
 }

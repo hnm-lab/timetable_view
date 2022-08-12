@@ -154,4 +154,21 @@ class Utils {
 
     return true;
   }
+
+  static double topPosition(
+      {required int hour,
+      required int minute,
+      int startHour = 0,
+      required double timeItemHeight}) {
+    return _calculateTimetableItemTopOffset(hour, minute, timeItemHeight) -
+        startHour * timeItemHeight;
+  }
+
+  static double _calculateTimetableItemTopOffset(
+    int hour, [
+    int minute = 0,
+    double? hourRowHeight,
+  ]) {
+    return (hour + (minute / 60)) * (hourRowHeight ?? 60);
+  }
 }
