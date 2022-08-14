@@ -69,5 +69,5 @@ class TimetableStyle {
     this.timeItemAlignment: Alignment.center,
     this.showTimeAsAMPM: false,
     this.showNowLine: false,
-  });
+  }) : assert(startHour < endHour);
 }
